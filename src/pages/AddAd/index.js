@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { PageArea, SearchArea } from "./styled.js";
+import { PageArea } from "./styled.js";
 import {
   PageContainer,
   PageTitle,
@@ -13,7 +13,7 @@ import createNumberMask from "text-mask-addons/dist/createNumberMask";
 const App = () => {
   const api = useApi();
 
-  const filedField = useRef();
+  const fileField = useRef();
   const history = useHistory();
   const [categories, setCategories] = useState([]);
 
@@ -22,9 +22,6 @@ const App = () => {
   const [priceNegotiable, setPriceNegotiable] = useState(false);
   const [desc, setDesct] = useState("");
   const [category, setCategory] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberPassword, setRememberPassword] = useState(false);
   const [disabled, setDisabeled] = useState(false);
   const [error, setError] = useState("");
 
@@ -41,9 +38,11 @@ const App = () => {
     setDisabeled(true);
     setError("");
     let errors = [];
+
     if (!title.trim()) {
       errors.push("Sem titulo");
     }
+
     if (!category) {
       errors.push("Sem categoria");
     }
@@ -55,9 +54,10 @@ const App = () => {
       fData.append("priceneg", priceNegotiable);
       fData.append("desc", desc);
       fData.append("cat", category);
-      if (filedField.current.files.lenght > 0) {
-        for (let i = 0; i < filedField.current.files.lenght; i++) {
-          fData.append("img", filedField.current.files[i]);
+
+      if (fileField.current.files.lenght > 0) {
+        for (let i = 0; i < fileField.current.files.lenght; i++) {
+          fData.append("img", fileField.current.files[i]);
         }
       }
 
@@ -95,7 +95,7 @@ const App = () => {
                 type="text"
                 placeholder="Digite o titulo"
                 disabled={disabled}
-                require
+                required
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
@@ -105,7 +105,7 @@ const App = () => {
             <div className="area--title">Categoria:</div>
             <div className="area--input">
               <select
-                disable={disabled}
+                disabled={disabled}
                 onChange={(e) => setCategory(e.target.value)}
                 required
               >
@@ -153,12 +153,7 @@ const App = () => {
           <label className="area">
             <div className="area--title">Imagens (1 ou Mais):</div>
             <div className="area--input">
-              <input
-                type="file"
-                disabled={disabled}
-                multiple
-                ref={filedField}
-              />
+              <input type="file" disabled={disabled} multiple ref={fileField} />
             </div>
           </label>
           <label className="area">
